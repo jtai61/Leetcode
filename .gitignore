@@ -1,0 +1,8 @@
+# VSCode folder
+.vscode/
+
+# build folder
+build/
+
+# obj file
+*.o
