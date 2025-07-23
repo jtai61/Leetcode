@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "sorting.h"
 
 void swap(int *a, int *b)
 {
@@ -134,23 +133,4 @@ void MergeSort(int *data, int left, int right)
 
         merge(data, left, mid, right);
     }
-}
-
-int main()
-{
-    int data[] = {29, 10, 14, 37, 13, 28, 39, 5};
-    int n = sizeof(data) / sizeof(data[0]);
-
-    printf("Before: ");
-    print_array(data, n);
-
-    // BubbleSort(data, n);
-    QuickSort(data, 0, n - 1);
-    // MergeSort(data, 0, n - 1);
-
-
-    printf(" After: ");
-    print_array(data, n);
-
-    return 0;
 }

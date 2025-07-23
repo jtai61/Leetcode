@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <string.h>
+#include "string.h"
 
 void swap(char *a, char *b)
 {
@@ -39,18 +38,4 @@ void string_concat(char *str1, char *str2, char *dest)
         dest[str1_len + j] = str2[j];
     }
     dest[str1_len + str2_len] = '\0';
-}
-
-int main()
-{
-    char str1[] = "Hello";
-    char str2[] = ", world!";
-
-    char str3[100];
-
-    string_concat(str1, str2, str3);
-
-    printf("str3: %s\n", str3);
-
-    return 0;
 }

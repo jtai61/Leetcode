@@ -3,6 +3,3 @@
 
 # build folder
 build/
-
-# obj file
-*.o
