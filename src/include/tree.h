@@ -1,6 +1,7 @@
 #ifndef TREE_H
 #define TREE_H
 
+#include <stdio.h>
 #include <stdlib.h>
 
 typedef struct node
@@ -10,6 +11,9 @@ typedef struct node
     struct node *right;
 } TreeNode;
 
+void preorder(TreeNode *);
+void inorder(TreeNode *);
+void postorder(TreeNode *);
 
 
 #endif
