@@ -1,28 +1,32 @@
 #include "bitwise.h"
 
-unsigned char count_bit1(unsigned char byte)
+/* Method 1 */
+unsigned int hamming_weight_v1(unsigned int num)
 {
-    unsigned char count = 0;
+    unsigned int count = 0;
 
-    while (byte)
+    while (num)
     {
-        if (byte & 1)
+        if (num & 1)
         {
             count++;
         }
-
-        byte >>= 1;
+        num >>= 1;
     }
-
+    
     return count;
 }
 
-/* print binary number */
-void dec_to_bin(unsigned char num)
+/* Method 2 */
+unsigned int hamming_weight_v2(unsigned int num)
 {
-    for (int i = 7; i >= 0; i--)
+    unsigned int count = 0;
+
+    while (num)
     {
-        printf("%d", (num >> i) & 1);
+        num &= (num - 1);
+        count++;
     }
-    printf("\n");
+    
+    return count;
 }

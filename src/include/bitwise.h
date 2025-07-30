@@ -3,7 +3,8 @@
 
 #include <stdio.h>
 
-unsigned char count_bit1(unsigned char);
-void dec_to_bin(unsigned char);
+unsigned int hamming_weight_v1(unsigned int);
+unsigned int hamming_weight_v2(unsigned int);
+
 
 #endif
