@@ -19,11 +19,10 @@ typedef struct stack
 } Stack;
 
 Stack *stack_create(void);
-void stack_destroy(Stack *);
-void stack_make_empty(Stack *);
-bool stack_is_empty(Stack *);
+bool stack_empty(Stack *);
 void stack_push(Stack *, Item);
 Item stack_pop(Stack *);
+void stack_destroy(Stack *);
 void stack_print(Stack *);
 
 #endif

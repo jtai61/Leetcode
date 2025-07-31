@@ -10,19 +10,7 @@ Queue *queue_create(void)
     return q;
 }
 
-void queue_destroy(Queue *q)
-{
-    make_empty(q);
-    free(q);
-}
-
-void queue_make_empty(Queue *q)
-{
-    while (!is_empty(q))
-        pop(q);
-}
-
-bool queue_is_empty(Queue *q)
+bool queue_empty(Queue *q)
 {
     if (q->front == NULL && q->back == NULL)
         return true;
@@ -37,7 +25,7 @@ void queue_push(Queue *q, Item i)
     new_node->data = i;
     new_node->next = NULL;
 
-    if (is_empty(q))
+    if (queue_empty(q))
     {
         q->front = new_node;
     }
@@ -51,7 +39,7 @@ void queue_push(Queue *q, Item i)
 
 Item queue_pop(Queue *q)
 {
-    if (is_empty(q))
+    if (queue_empty(q))
     {
         printf("Error: queue is empty.\n");
         exit(EXIT_FAILURE);
@@ -69,6 +57,14 @@ Item queue_pop(Queue *q)
         free(target);
         return i;
     }
+}
+
+void queue_destroy(Queue *q)
+{
+    while (!queue_empty(q))
+        queue_pop(q);
+    
+    free(q);
 }
 
 void queue_print(Queue *q)

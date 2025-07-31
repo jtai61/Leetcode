@@ -20,11 +20,10 @@ typedef struct queue
 } Queue;
 
 Queue *queue_create(void);
-void queue_destroy(Queue *);
-void queue_make_empty(Queue *);
-bool queue_is_empty(Queue *);
+bool queue_empty(Queue *);
 void queue_push(Queue *, Item);
 Item queue_pop(Queue *);
+void queue_destroy(Queue *);
 void queue_print(Queue *);
 
 #endif
