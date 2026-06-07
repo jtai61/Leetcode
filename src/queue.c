@@ -1,18 +1,29 @@
 #include "queue.h"
 
-Queue *queue_create(void)
+#if ( METHOD == LINKED_LIST )
+
+Queue *queue_init(void)
 {
     Queue *q = (Queue *)malloc(sizeof(Queue));
 
+    q->length = 0;
     q->front = NULL;
-    q->back = NULL;
+    q->rear = NULL;
 
     return q;
 }
 
 bool queue_empty(Queue *q)
 {
-    if (q->front == NULL && q->back == NULL)
+    if (q->length == 0 && q->front == NULL && q->rear == NULL)
+        return true;
+    else
+        return false;
+}
+
+bool queue_full(Queue *q)
+{
+    if (q->length == SIZE)
         return true;
     else
         return false;
@@ -20,6 +31,12 @@ bool queue_empty(Queue *q)
 
 void queue_push(Queue *q, Item i)
 {
+    if (queue_full(q))
+    {
+        printf("Error: queue is full.\n");
+        return;
+    }
+    
     Node *new_node = (Node *)malloc(sizeof(Node));
 
     new_node->data = i;
@@ -31,10 +48,10 @@ void queue_push(Queue *q, Item i)
     }
     else
     {
-        q->back->next = new_node;
+        q->rear->next = new_node;
     }
-
-    q->back = new_node;
+    q->rear = new_node;
+    q->length++;
 }
 
 Item queue_pop(Queue *q)
@@ -42,21 +59,21 @@ Item queue_pop(Queue *q)
     if (queue_empty(q))
     {
         printf("Error: queue is empty.\n");
-        exit(EXIT_FAILURE);
+        return;
     }
-    else
-    {
-        Node *target = q->front;
-        Item i = target->data;
 
-        q->front = q->front->next;
+    Node *target = q->front;
+    Item i = target->data;
 
-        if (q->front == NULL)
-            q->back = NULL;
-        
-        free(target);
-        return i;
-    }
+    q->length--;
+    q->front = q->front->next;
+
+    if (q->length == 0 && q->front == NULL)
+        q->rear = NULL;
+    
+    free(target);
+
+    return i;
 }
 
 void queue_destroy(Queue *q)
@@ -75,3 +92,73 @@ void queue_print(Queue *q)
     }
     printf("\n");
 }
+
+#else   // METHOD == ARRAY
+
+Queue *queue_init(void)
+{
+    Queue *q = (Queue *)malloc(sizeof(Queue));
+
+    q->front = -1;
+    q->rear = -1;
+
+    return q;
+}
+
+bool queue_full(Queue *q)
+{
+    if (q->front == ((q->rear + 1) % SIZE))
+        return true;
+    else
+        return false;
+}
+
+bool queue_empty(Queue *q)
+{
+    if (q->front == -1 && q->rear == -1)
+        return true;
+    else
+        return false;
+}
+
+void queue_push(Queue *q, Item i)
+{
+    if (queue_full(q))
+    {
+        printf("Error: queue is full.\n");
+        return;
+    }
+    
+    q->rear = (q->rear + 1) % SIZE;
+    q->data[q->rear] = i;
+
+    if (q->front == -1) // First push
+    {
+        q->front = q->rear;
+    }
+}
+
+Item queue_pop(Queue *q)
+{
+    if (queue_empty(q))
+    {
+        printf("Error: queue is empty.\n");
+        return;
+    }
+    
+    Item target = q->data[q->front];
+
+    if (q->front == q->rear)    // Only one element
+    {
+        q->front = -1;
+        q->rear = -1;
+    }
+    else
+    {
+        q->front = (q->front + 1) % SIZE;
+    }
+
+    return target;
+}
+
+#endif

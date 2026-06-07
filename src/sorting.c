@@ -50,11 +50,9 @@ void QuickSort(int *data, int left, int right)
 
 void BubbleSort(int *data, int len)
 {
-    int i, j;
-
-    for (i = 0; i < len - 1; i++)
+    for (int i = 0; i < len - 1; i++)
     {
-        for (j = 0; j < len - 1 - i; j++)
+        for (int j = 0; j < len - 1 - i; j++)
         {
             if (data[j] > data[j + 1])
             {

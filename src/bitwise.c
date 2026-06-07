@@ -1,32 +1,39 @@
 #include "bitwise.h"
 
-/* Method 1 */
-unsigned int hamming_weight_v1(unsigned int num)
+u32 CountBitOne(u32 num)
 {
-    unsigned int count = 0;
+    u32 count = 0;
 
     while (num)
     {
-        if (num & 1)
-        {
-            count++;
-        }
-        num >>= 1;
+        count++;
+        num &= (num - 1);
     }
     
     return count;
 }
 
-/* Method 2 */
-unsigned int hamming_weight_v2(unsigned int num)
+int Find_MSB(u8 num)
 {
-    unsigned int count = 0;
+    if (num == 0)
+    {
+        return -1;
+    }
+
+    int count = -1;
 
     while (num)
     {
-        num &= (num - 1);
         count++;
+        num >>= 1;
     }
-    
+
     return count;
+}
+
+void XOR_swap(u8 *a, u8 *b)
+{
+    *a ^= *b;
+    *b ^= *a;
+    *a ^= *b;
 }

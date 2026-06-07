@@ -1,37 +1,31 @@
 #include "tree.h"
 
-void preorder(TreeNode *root)
+void tree_preorder(BinaryTree *t)
 {
-    if (root == NULL)
+    if (t->root == NULL)
         return;
-    else
-    {
-        printf("%d ", root->data);
-        preorder(root->left);
-        preorder(root->right);
-    }
+
+    printf("%d ", t->root->data);
+    preorder(t->root->left);
+    preorder(t->root->right);
 }
 
-void inorder(TreeNode *root)
+void inorder(BinaryTree *t)
 {
-    if (root == NULL)
+    if (t->root == NULL)
         return;
-    else
-    {
-        inorder(root->left);
-        printf("%d ", root->data);
-        inorder(root->right);
-    }
+
+    inorder(t->root->left);
+    printf("%d ", t->root->data);
+    inorder(t->root->right);
 }
 
-void postorder(TreeNode *root)
+void postorder(BinaryTree *t)
 {
-    if (root == NULL)
+    if (t->root == NULL)
         return;
-    else
-    {
-        postorder(root->left);
-        postorder(root->right);
-        printf("%d ", root->data);
-    }
+
+    postorder(t->root->left);
+    postorder(t->root->right);
+    printf("%d ", t->root->data);
 }

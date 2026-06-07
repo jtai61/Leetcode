@@ -7,35 +7,46 @@ void swap(char *a, char *b)
     *b = tmp;
 }
 
-int string_length(char *str)
+int string_length(char *src)
 {
-    int i, count;
+    int count = 0;
+    char *ptr = src;
 
-    for (i = 0, count = 0; str[i] != '\0'; i++, count++)
-        ;
-
+    while (*ptr != '\0')
+    {
+        count++;
+        ptr++;
+    }
+    
     return count;
 }
 
-void string_reverse(char *str)
+void string_reverse(char *src)
 {
-    int len = string_length(str);
+    int len = strlen(src);
 
-    for (int i = 0, j = len - 1; i < len / 2; i++, j--)
+    for (int i = 0, j = len - 1; i < j; i++, j--)
     {
-        swap(&str[i], &str[j]);
+        swap(&src[i], &src[j]);
     }
 }
 
-void string_concat(char *str1, char *str2, char *dest)
+char *string_concat(char *src1, char *src2)
 {
-    int str1_len = string_length(str1);
-    int str2_len = string_length(str2);
+    int len1 = strlen(src1), len2 = strlen(src2);
+    char *dest = (char *)malloc((len1 + len2 + 1) * sizeof(char));
 
-    for (int i = 0, j = 0; i < str1_len, j < str2_len; i++, j++)
+    for (int i = 0; i < len1; i++)
     {
-        dest[i] = str1[i];
-        dest[str1_len + j] = str2[j];
+        dest[i] = src1[i];
     }
-    dest[str1_len + str2_len] = '\0';
+
+    for (int j = 0; j < len2; j++)
+    {
+        dest[len1 + j] = src2[j];
+    }
+    
+    dest[len1 + len2] = '\0';
+
+    return dest;
 }

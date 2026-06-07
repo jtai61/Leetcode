@@ -1,6 +1,8 @@
 #include "stack.h"
 
-Stack *stack_create(void)
+#if (METHOD == LINKED_LIST)
+
+Stack *stack_init(void)
 {
     Stack *s = (Stack *)malloc(sizeof(Stack));
 
@@ -59,3 +61,54 @@ void stack_print(Stack *s)
     }
     printf("\n");
 }
+
+#else   // METHOD == ARRAY
+
+Stack *stack_init(void)
+{
+    Stack *s = (Stack *)malloc(sizeof(Stack));
+
+    s->top = -1;
+
+    return s;
+}
+
+bool stack_empty(Stack *s)
+{
+    if (s->top == -1)
+        return true;
+    else
+        return false;    
+}
+
+bool stack_full(Stack *s)
+{
+    if (s->top == (SIZE - 1))
+        return true;
+    else
+        return false;    
+}
+
+void stack_push(Stack *s, Item i)
+{
+    if (stack_full(s))
+    {
+        printf("Error: stack is full.\n");
+        return;
+    }
+    
+    s->data[++s->top] = i;
+}
+
+Item stack_pop(Stack *s)
+{
+    if (stack_empty(s))
+    {
+        printf("Error: stack is empty.\n");
+        return;
+    }
+
+    return s->data[s->top--];
+}
+
+#endif

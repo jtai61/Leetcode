@@ -4,8 +4,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "basic_define.h"
+
+#define ARRAY           ( 0 )
+#define LINKED_LIST     ( 1 )
+#define METHOD          ( ARRAY )
+
+#define SIZE            ( 10 )
 
 typedef int Item;
+
+#if ( METHOD == LINKED_LIST )
 
 typedef struct node
 {
@@ -15,12 +24,25 @@ typedef struct node
 
 typedef struct queue
 {
+    u32 length;
     Node *front;
-    Node *back;
+    Node *rear;
 } Queue;
 
-Queue *queue_create(void);
+#else
+
+typedef struct queue
+{
+    Item data[SIZE];
+    int front;
+    int rear;
+} Queue;
+
+#endif
+
+Queue *queue_init(void);
 bool queue_empty(Queue *);
+bool queue_full(Queue *);
 void queue_push(Queue *, Item);
 Item queue_pop(Queue *);
 void queue_destroy(Queue *);
