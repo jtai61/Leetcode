@@ -4,27 +4,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* singly linked list node structure */
+typedef int Item;
+
 typedef struct ListNode
 {
-    int data;
+    Item data;
     struct ListNode *next;
 } ListNode;
 
-/* doubly linked list node structure */
-typedef struct ListNode2
+typedef struct _List
 {
-    int data;
-    struct ListNode2 *prev;
-    struct ListNode2 *next;
-} ListNode2;
+    ListNode *head;
+} List;
 
-void print_list(ListNode *);
-void add_to_sorted_list(ListNode **, int);
-void delete_from_list(ListNode **, int);
-void reverse_list(ListNode **);
-void delete_from_doubly_linked_list(ListNode2 **, int);
-void add_to_sorted_doubly_linked_list(ListNode2 **, int);
-
+void sorted_list_push(List *, Item);
+void list_pop(List *, Item);
+void list_reverse(List *);
 
 #endif
