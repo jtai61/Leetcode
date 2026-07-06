@@ -31,14 +31,14 @@ int Iterative_Binary_Search(int *data, int length, int target)
 /* Recursive binary search non-duplicate elements */
 int Recursive_Binary_Search(int *data, int left, int right, int target)
 {
-    int mid = (left + right) / 2;
-
     if (left > right)
     {
         return -1;      // not found
     }
     else
     {
+        int mid = (left + right) / 2;
+
         if (target < data[mid])
         {
             return Recursive_Binary_Search(data, left, mid - 1, target);
