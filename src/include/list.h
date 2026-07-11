@@ -39,5 +39,6 @@ void list_destroy(List *);
 void sorted_list_push(List *, Item);
 void list_pop(List *, Item);
 void list_reverse(List *);
+List *sorted_list_merge(List *, List *);
 
 #endif

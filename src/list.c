@@ -140,6 +140,62 @@ void list_reverse(List *list)
     list->head = pre;
 }
 
+List *sorted_list_merge(List *list_1, List *list_2)
+{
+    if (list_1 == NULL || list_2 == NULL)
+        return NULL;
+    
+    List *merge_list = list_init();
+    
+    ListNode *ptr1 = list_1->head;
+    ListNode *ptr2 = list_2->head;
+
+    ListNode **last_ptr_ref = &(merge_list->head);
+
+    while (ptr1 != NULL || ptr2 != NULL)
+    {
+        ListNode *new_node = (ListNode *)malloc(sizeof(ListNode));
+
+        if (new_node == NULL)
+        {
+            printf("Error: memory allocation fail.\n");
+            list_destroy(merge_list);
+            return NULL;
+        }
+
+        new_node->next = NULL;
+
+        if (ptr1 == NULL)
+        {
+            new_node->data = ptr2->data;
+            ptr2 = ptr2->next;
+        }
+        else if (ptr2 == NULL)
+        {
+            new_node->data = ptr1->data;
+            ptr1 = ptr1->next;
+        }
+        else
+        {
+            if (ptr1->data <= ptr2->data)
+            {
+                new_node->data = ptr1->data;
+                ptr1 = ptr1->next;
+            }
+            else
+            {
+                new_node->data = ptr2->data;
+                ptr2 = ptr2->next;
+            }
+        }
+
+        *last_ptr_ref = new_node;
+        last_ptr_ref = &(new_node->next);
+    }
+    
+    return merge_list;
+}
+
 #else
 
 void sorted_list_push(List *list, Item key)
