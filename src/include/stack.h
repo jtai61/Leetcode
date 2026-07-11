@@ -6,15 +6,15 @@
 #include <stdbool.h>
 #include "basic_define.h"
 
-#define ARRAY           ( 0 )
-#define LINKED_LIST     ( 1 )
-#define METHOD          ( ARRAY )
+#define ARRAY           ( 1 )
+#define LINKED_LIST     ( 2 )
+#define STACK_METHOD    ( ARRAY )
 
-#define SIZE            ( 10 )
+#define SIZE    ( 10 )
 
 typedef int Item;
 
-#if (METHOD == LINKED_LIST)
+#if ( STACK_METHOD == LINKED_LIST )
 
 typedef struct node
 {

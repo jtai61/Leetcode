@@ -1,6 +1,6 @@
 #include "stack.h"
 
-#if (METHOD == LINKED_LIST)
+#if ( STACK_METHOD == LINKED_LIST )
 
 Stack *stack_init(void)
 {
