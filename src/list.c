@@ -37,6 +37,23 @@ void list_destroy(List *list)
     free(list);
 }
 
+int list_length(List *list)
+{
+    if (list == NULL)
+        return -1;
+        
+    int count = 0;
+    ListNode *ptr = list->head;
+
+    while (ptr != NULL)
+    {
+        count++;
+        ptr = ptr->next;
+    }
+    
+    return count;
+}
+
 #if ( LINKED_LIST_METHOD == SINGLY_LINKED_LIST )
 
 void sorted_list_push(List *list, Item key)

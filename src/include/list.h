@@ -36,6 +36,7 @@ typedef struct _List
 
 List *list_init(void);
 void list_destroy(List *);
+int list_length(List *);
 void sorted_list_push(List *, Item);
 void list_pop(List *, Item);
 void list_reverse(List *);
