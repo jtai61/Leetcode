@@ -48,7 +48,11 @@ int list_length(List *list)
     while (ptr != NULL)
     {
         count++;
+#if ( LINKED_LIST_METHOD == SINGLY_LINKED_LIST )
         ptr = ptr->next;
+#else
+        ptr = ptr->right;
+#endif
     }
     
     return count;
@@ -157,7 +161,8 @@ void list_reverse(List *list)
     list->head = pre;
 }
 
-List *sorted_list_merge(List *list_1, List *list_2)
+/* LeetCode 21. Merge Two Sorted Lists */
+List *mergeTwoLists(List *list_1, List *list_2)
 {
     if (list_1 == NULL || list_2 == NULL)
         return NULL;
@@ -211,6 +216,71 @@ List *sorted_list_merge(List *list_1, List *list_2)
     }
     
     return merge_list;
+}
+
+/* LeetCode 83. Remove Duplicates from Sorted List */
+void deleteDuplicates(List *list)
+{
+    if (list == NULL)
+        return;
+
+    if (list->head == NULL)
+    {
+        printf("Error: list is empty.\n");
+        return;
+    }
+    
+    ListNode *cur = list->head;
+
+    while (cur != NULL && cur->next != NULL)
+    {
+        if (cur->data == cur->next->data)
+        {
+            ListNode *duplicate = cur->next;
+            cur->next = cur->next->next;
+            free(duplicate);
+        }
+        else
+        {
+            cur = cur->next;
+        }
+    }
+}
+
+/* LeetCode 203. Remove Linked List Elements */
+void removeElements(List *list, int val)
+{
+    if (list == NULL || list->head == NULL)
+        return;
+    
+    ListNode *cur = list->head;
+    ListNode *pre = NULL;
+    ListNode **head_ptr = &(list->head);
+
+    while (cur != NULL)
+    {
+        if (cur->data == val)
+        {
+            ListNode *target = cur;
+
+            if (pre == NULL)
+            {
+                *head_ptr = cur->next;
+            }
+            else
+            {
+                pre->next = cur->next;
+            }
+            
+            cur = cur->next;
+            free(target);
+        }
+        else
+        {
+            pre = cur;
+            cur = cur->next;
+        }
+    }
 }
 
 #else

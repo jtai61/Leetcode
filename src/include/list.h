@@ -40,6 +40,8 @@ int list_length(List *);
 void sorted_list_push(List *, Item);
 void list_pop(List *, Item);
 void list_reverse(List *);
-List *sorted_list_merge(List *, List *);
+List *mergeTwoLists(List *, List *);
+void deleteDuplicates(List *);
+void removeElements(List *, int);
 
 #endif
