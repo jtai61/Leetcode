@@ -8,15 +8,13 @@
 #define DOUBLY_LINKED_LIST      ( 2 )
 #define LINKED_LIST_METHOD      ( SINGLY_LINKED_LIST )
 
-typedef int Item;
-
 #if ( LINKED_LIST_METHOD == SINGLY_LINKED_LIST )
 
-typedef struct ListNode
+struct ListNode
 {
-    Item data;
+    int val;
     struct ListNode *next;
-} ListNode;
+};
 
 #else
 
@@ -29,19 +27,11 @@ typedef struct ListNode
 
 #endif
 
-typedef struct _List
-{
-    ListNode *head;
-} List;
-
-List *list_init(void);
-void list_destroy(List *);
-int list_length(List *);
-void sorted_list_push(List *, Item);
-void list_pop(List *, Item);
-void list_reverse(List *);
-List *mergeTwoLists(List *, List *);
-void deleteDuplicates(List *);
-void removeElements(List *, int);
+struct ListNode *sorted_list_push(struct ListNode *, int);
+struct ListNode *reverseList(struct ListNode *);
+struct ListNode *mergeTwoLists(struct ListNode *, struct ListNode *);
+struct ListNode *deleteDuplicates(struct ListNode *);
+struct ListNode *removeElements(struct ListNode *, int);
+struct ListNode *middleNode(struct ListNode *);
 
 #endif

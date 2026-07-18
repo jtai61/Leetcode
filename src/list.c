@@ -1,90 +1,30 @@
 #include "list.h"
 
-List *list_init(void)
-{
-    List *list = (List *)malloc(sizeof(List));
-
-    if (list == NULL)
-    {
-        printf("Error: memory allocation fail.\n");
-        return NULL;
-    }
-
-    list->head = NULL;
-
-    return list;
-}
-
-void list_destroy(List *list)
-{
-    if (list == NULL)
-        return;
-
-    ListNode *cur = list->head;
-    ListNode *next = NULL;
-
-    while (cur != NULL)
-    {
-#if ( LINKED_LIST_METHOD == SINGLY_LINKED_LIST )
-        next = cur->next;
-#else
-        next = cur->right;
-#endif
-        free(cur);
-        cur = next;
-    }
-    
-    free(list);
-}
-
-int list_length(List *list)
-{
-    if (list == NULL)
-        return -1;
-        
-    int count = 0;
-    ListNode *ptr = list->head;
-
-    while (ptr != NULL)
-    {
-        count++;
-#if ( LINKED_LIST_METHOD == SINGLY_LINKED_LIST )
-        ptr = ptr->next;
-#else
-        ptr = ptr->right;
-#endif
-    }
-    
-    return count;
-}
-
 #if ( LINKED_LIST_METHOD == SINGLY_LINKED_LIST )
 
-void sorted_list_push(List *list, Item key)
+struct ListNode *sorted_list_push(struct ListNode *head, int val)
 {
-    if (list == NULL)
-        return;
-    
-    ListNode *cur = list->head;
-    ListNode *new_node = (ListNode *)malloc(sizeof(ListNode));
+    struct ListNode *new_node = (struct ListNode *)malloc(sizeof(struct ListNode));
 
     if (new_node == NULL)
     {
         printf("Error: memory allocation fail.\n");
-        return;
+        return head;
     }
 
-    new_node->data = key;
+    new_node->val = val;
+
+    struct ListNode *cur = head;
 
     /* add to first */
-    if (cur == NULL || cur->data > key)
+    if (cur == NULL || cur->val > val)
     {
         new_node->next = cur;
-        list->head = new_node;
+        head = new_node;
     }
     else    /* add to middle or last */
     {
-        while (cur->next != NULL && cur->next->data <= key)
+        while (cur->next != NULL && cur->next->val <= val)
         {
             cur = cur->next;
         }
@@ -92,63 +32,16 @@ void sorted_list_push(List *list, Item key)
         new_node->next = cur->next;
         cur->next = new_node;
     }
+
+    return head;
 }
 
-void list_pop(List *list, Item key)
-{
-    if (list == NULL)
-        return;
-    
-    if (list->head == NULL)
-    {
-        printf("Error: list is empty.\n");
-        return;
-    }
-
-    ListNode *cur = list->head;
-    ListNode *pre = NULL;
-
-    /* search */
-    while (cur != NULL && cur->data != key)
-    {
-        pre = cur;
-        cur = cur->next;
-    }
-    
-    /* not found */
-    if (cur == NULL)
-    {
-        printf("Error: not found.\n");
-        return;
-    }
-    
-    /* delete from list */
-    if (pre == NULL)
-    {
-        list->head = cur->next; // first node
-    }
-    else
-    {
-        pre->next = cur->next;
-    }
-
-    free(cur);
-}
-
-void list_reverse(List *list)
-{
-    if (list == NULL)
-        return;
-    
-    if (list->head == NULL)
-    {
-        printf("Error: list is empty.\n");
-        return;
-    }
-
-    ListNode *cur = list->head;
-    ListNode *pre = NULL;
-    ListNode *next = NULL;
+/* LeetCode 206. Reverse Linked List */
+struct ListNode *reverseList(struct ListNode *head)
+{    
+    struct ListNode *cur = head;
+    struct ListNode *pre = NULL;
+    struct ListNode *next = NULL;
 
     while (cur != NULL)
     {
@@ -158,85 +51,43 @@ void list_reverse(List *list)
         cur = next;
     }
 
-    list->head = pre;
+    return pre;
 }
 
 /* LeetCode 21. Merge Two Sorted Lists */
-List *mergeTwoLists(List *list_1, List *list_2)
+struct ListNode *mergeTwoLists(struct ListNode *list1, struct ListNode *list2)
 {
-    if (list_1 == NULL || list_2 == NULL)
-        return NULL;
+    if (list1 == NULL)
+        return list2;
     
-    List *merge_list = list_init();
+    if (list2 == NULL)
+        return list1;
     
-    ListNode *ptr1 = list_1->head;
-    ListNode *ptr2 = list_2->head;
-
-    ListNode **last_ptr_ref = &(merge_list->head);
-
-    while (ptr1 != NULL || ptr2 != NULL)
+    if (list1->val <= list2->val)
     {
-        ListNode *new_node = (ListNode *)malloc(sizeof(ListNode));
-
-        if (new_node == NULL)
-        {
-            printf("Error: memory allocation fail.\n");
-            list_destroy(merge_list);
-            return NULL;
-        }
-
-        new_node->next = NULL;
-
-        if (ptr1 == NULL)
-        {
-            new_node->data = ptr2->data;
-            ptr2 = ptr2->next;
-        }
-        else if (ptr2 == NULL)
-        {
-            new_node->data = ptr1->data;
-            ptr1 = ptr1->next;
-        }
-        else
-        {
-            if (ptr1->data <= ptr2->data)
-            {
-                new_node->data = ptr1->data;
-                ptr1 = ptr1->next;
-            }
-            else
-            {
-                new_node->data = ptr2->data;
-                ptr2 = ptr2->next;
-            }
-        }
-
-        *last_ptr_ref = new_node;
-        last_ptr_ref = &(new_node->next);
+        list1->next = mergeTwoLists(list1->next, list2);
+        return list1;
     }
-    
-    return merge_list;
+    else
+    {
+        list2->next = mergeTwoLists(list1, list2->next);
+        return list2;
+    }
 }
 
 /* LeetCode 83. Remove Duplicates from Sorted List */
-void deleteDuplicates(List *list)
+struct ListNode *deleteDuplicates(struct ListNode *head)
 {
-    if (list == NULL)
-        return;
-
-    if (list->head == NULL)
-    {
-        printf("Error: list is empty.\n");
-        return;
-    }
+    if (head == NULL)
+        return NULL;
     
-    ListNode *cur = list->head;
+    struct ListNode *cur = head;
 
     while (cur != NULL && cur->next != NULL)
     {
-        if (cur->data == cur->next->data)
+        if (cur->val == cur->next->val)
         {
-            ListNode *duplicate = cur->next;
+            struct ListNode *duplicate = cur->next;
             cur->next = cur->next->next;
             free(duplicate);
         }
@@ -245,27 +96,25 @@ void deleteDuplicates(List *list)
             cur = cur->next;
         }
     }
+
+    return head;
 }
 
 /* LeetCode 203. Remove Linked List Elements */
-void removeElements(List *list, int val)
-{
-    if (list == NULL || list->head == NULL)
-        return;
-    
-    ListNode *cur = list->head;
-    ListNode *pre = NULL;
-    ListNode **head_ptr = &(list->head);
+struct ListNode *removeElements(struct ListNode *head, int val)
+{    
+    struct ListNode *cur = head;
+    struct ListNode *pre = NULL;
 
     while (cur != NULL)
     {
-        if (cur->data == val)
+        if (cur->val == val)
         {
-            ListNode *target = cur;
+            struct ListNode *target = cur;
 
             if (pre == NULL)
             {
-                *head_ptr = cur->next;
+                head = cur->next;
             }
             else
             {
@@ -281,6 +130,26 @@ void removeElements(List *list, int val)
             cur = cur->next;
         }
     }
+
+    return head;
+}
+
+/* LeetCode 876. Middle of the linked list */
+struct ListNode *middleNode(struct ListNode *head)
+{
+    if (head == NULL)
+        return NULL;
+
+    struct ListNode *fast = head;
+    struct ListNode *slow = head;
+
+    while (fast != NULL && fast->next != NULL)
+    {
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+    
+    return slow;
 }
 
 #else
