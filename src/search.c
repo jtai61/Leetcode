@@ -1,55 +1,55 @@
 #include "search.h"
 
-/* Iterative binary search non-duplicate elements */
-int Iterative_Binary_Search(int *data, int length, int target)
+/* LeetCode 704. Binary Search */
+int search(int *nums, int numsSize, int target)
 {
     int left = 0;
-    int right = length - 1;
-    int mid;
+    int right = numsSize - 1;
 
     while (left <= right)
     {
-        mid = (left + right) / 2;
+        int mid = left + (right - left) / 2;
 
-        if (target < data[mid])
+        if (target < nums[mid])
         {
             right = mid - 1;
         }
-        else if (target > data[mid])
+        else if (target > nums[mid])
         {
             left = mid + 1;
         }
         else
         {
-            return mid;     // found
+            return mid;
         }
     }
 
-    return -1;  // not found
+    return -1;
 }
 
-/* Recursive binary search non-duplicate elements */
-int Recursive_Binary_Search(int *data, int left, int right, int target)
+/* LeetCode 35. Search Insert Position */
+int searchInsert(int *nums, int numsSize, int target)
 {
-    if (left > right)
-    {
-        return -1;      // not found
-    }
-    else
-    {
-        int mid = (left + right) / 2;
+    int left = 0;
+    int right = numsSize - 1;
 
-        if (target < data[mid])
+    while (left <= right)
+    {
+        int mid = left + (right - left) / 2;
+
+        if (target < nums[mid])
         {
-            return Recursive_Binary_Search(data, left, mid - 1, target);
+            right = mid - 1;
         }
-        else if (target > data[mid])
+        else if (target > nums[mid])
         {
-            return Recursive_Binary_Search(data, mid + 1, right, target);
+            left = mid + 1;
         }
         else
         {
-            return mid;     // found
+            return mid;
         }
     }
+
+    return left;
 }
